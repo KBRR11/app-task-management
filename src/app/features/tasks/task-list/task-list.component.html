@@ -34,14 +34,14 @@
 
         <div *ngIf="loading" class="loading-container">
             <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
-            <p class="loading-text">Loading your tasks...</p>
+            <p class="loading-text">Cargando tus tareas...</p>
         </div>
 
         <div *ngIf="!loading" class="tasks-wrapper">
             <div *ngIf="filteredTasks.length === 0" class="empty-state">
                 <mat-icon class="empty-state-icon">assignment</mat-icon>
                 <h2>No se encontraron tareas</h2>
-                <p>{{ filterType !== 'all' ? 'Try changing your filter or ' : '' }}Agrega nuevas tareas para empezar.</p>
+                <p>{{ filterType !== 'all' ? 'Intenta cambiar el filtro o ' : '' }}Agrega nuevas tareas para empezar.</p>
                 <button mat-raised-button color="primary" (click)="addTask()">
                     <mat-icon>add</mat-icon> Crear Tarea
                 </button>

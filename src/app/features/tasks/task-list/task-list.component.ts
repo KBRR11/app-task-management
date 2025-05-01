@@ -166,7 +166,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
     }
 
     toggleTaskCompletion(task: Task): void {
-        this.taskService.toggleTaskCompletion(task.id!)
+        this.taskService.toggleTaskCompletion(task.id!, !task.completed)
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: () => {
@@ -189,7 +189,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
             width: '350px',
             data: {
                 title: 'Delete Task',
-                message: `Are you sure you want to delete "${task.title}"?`,
+                message: `Estas seguro de borrar "${task.title}"?`,
                 confirmText: 'Delete',
                 cancelText: 'Cancel'
             },

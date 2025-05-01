@@ -26,8 +26,8 @@ export class TaskService {
         return this.http.put<{ task: Task }>(`${environment.apiUrl}/tasks/${id}`, task);
     }
 
-    toggleTaskCompletion(id: string): Observable<{ task: Task }> {
-        return this.http.patch<{ task: Task }>(`${environment.apiUrl}/tasks/${id}/toggle-completion`, {});
+    toggleTaskCompletion(id: string, completed: boolean): Observable<{ task: Task }> {
+        return this.http.patch<{ task: Task }>(`${environment.apiUrl}/tasks/${id}/toggle-completion`, {completed:completed});
     }
 
     deleteTask(id: string): Observable<any> {
