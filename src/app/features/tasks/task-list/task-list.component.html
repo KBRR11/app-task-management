@@ -40,10 +40,10 @@
         <div *ngIf="!loading" class="tasks-wrapper">
             <div *ngIf="filteredTasks.length === 0" class="empty-state">
                 <mat-icon class="empty-state-icon">assignment</mat-icon>
-                <h2>No tasks found</h2>
-                <p>{{ filterType !== 'all' ? 'Try changing your filter or ' : '' }}Add a new task to get started.</p>
+                <h2>No se encontraron tareas</h2>
+                <p>{{ filterType !== 'all' ? 'Try changing your filter or ' : '' }}Agrega nuevas tareas para empezar.</p>
                 <button mat-raised-button color="primary" (click)="addTask()">
-                    <mat-icon>add</mat-icon> Create Task
+                    <mat-icon>add</mat-icon> Crear Tarea
                 </button>
             </div>
 
