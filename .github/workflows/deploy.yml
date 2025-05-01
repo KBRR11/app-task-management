@@ -1,4 +1,4 @@
-name: Deploy Angular to Netlify
+name: Deploy to Netlify
 
 on:
   push:
@@ -6,23 +6,29 @@ on:
       - master
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      - name: Build Angular project
-        run: npm run build -- --configuration production
+      - name: Build Angular app
+        run: npm run build
+
+      - name: Install Netlify CLI
+        run: npm install -g netlify-cli
 
       - name: Deploy to Netlify
-        run: npx netlify deploy --prod --dir=dist/task-mannagement-app --auth ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        run: netlify deploy --prod --dir=dist/task-mannagement-app --site=$NETLIFY_SITE_ID --auth=$NETLIFY_AUTH_TOKEN
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
