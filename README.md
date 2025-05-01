@@ -1,27 +1,99 @@
-# TaskMannagementApp
+# Task Management App Frontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.17.
+Frontend para una aplicación de gestión de tareas desarrollada con Angular 17 que permite a los usuarios administrar sus tareas personales.
 
-## Development server
+## Características
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- ✅ Autenticación simplificada con correo electrónico
+- ✅ Creación, edición y eliminación de tareas
+- ✅ Marcado de tareas como completadas o pendientes
+- ✅ Filtrado por estado de tareas (completadas/pendientes)
+- ✅ Búsqueda de tareas por título y descripción
+- ✅ Diseño responsive para funcionar en cualquier dispositivo
+- ✅ Estructura organizada con componentes standalone (Angular 17)
 
-## Code scaffolding
+## Tecnologías
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- **Framework**: Angular 17
+- **UI Components**: Angular Material
+- **CSS**: SCSS
+- **HTTP Client**: Angular HttpClient
 
-## Build
+## Requisitos Previos
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- Node.js (versión 18 o superior)
+- npm (versión 9 o superior)
+- Angular CLI (versión 17 o superior)
 
-## Running unit tests
+## Instalación
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+1. Clona este repositorio:
+```bash
+git clone https://github.com/tu-usuario/task-management-app.git
+cd task-management-app
+```
 
-## Running end-to-end tests
+2. Instala las dependencias:
+```bash
+npm install
+```
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+3. Inicia el servidor de desarrollo:
+```bash
+ng serve
+```
 
-## Further help
+4. Abre tu navegador en `http://localhost:4200`
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Estructura del Proyecto
+
+```
+src/
+├── app/
+│   ├── core/                # Módulo core (servicios, interceptores)
+│   │   ├── auth/            # Servicios de autenticación
+│   │   └── services/        # Servicios de la aplicación
+│   ├── features/            # Módulos de características
+│   │   ├── auth/            # Característica de autenticación
+│   │   └── tasks/           # Característica de tareas
+│   ├── shared/              # Componentes y pipes compartidos
+│   ├── models/              # Interfaces y tipos
+│   └── app.component.ts     # Componente raíz (standalone)
+├── assets/                  # Recursos estáticos
+└── environments/            # Configuración de entornos
+```
+
+## Características de Arquitectura
+
+- **Componentes Standalone**: Utilizando la nueva arquitectura de Angular 17
+- **Lazy Loading**: Carga diferida de módulos de características
+- **Interceptor HTTP**: Gestión automática de tokens de autenticación
+- **Route Guards**: Protección de rutas privadas
+- **Servicios**: Separación clara de responsabilidades
+- **Interfaces tipadas**: Definición de modelos con TypeScript
+
+## Componentes Principales
+
+- **Login**: Pantalla de inicio de sesión con email
+- **Task List**: Lista de tareas con filtros y búsqueda
+- **Task Form**: Formulario para crear/editar tareas
+- **Confirm Dialog**: Diálogo de confirmación para acciones importantes
+
+## Despliegue
+
+Para construir la aplicación para producción:
+
+```bash
+ng build --configuration production
+```
+
+Los archivos generados estarán en la carpeta `dist/task-management-app` y pueden ser desplegados en cualquier servicio de hosting.
+
+
+## Créditos
+
+Desarrollado por Keny Ramírez como parte de un challenge técnico.
+
+## Licencia
+
+Este proyecto está licenciado bajo la Licencia MIT - ver el archivo LICENSE para más detalles.
