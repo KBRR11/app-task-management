@@ -43,7 +43,7 @@ export class AuthService {
                         // User doesn't exist
                         return throwError(() => ({
                             notFound: true,
-                            message: 'User not found. Would you like to create a new account?'
+                            message: 'Usuario no encontrado.\nTe gustaría crear una nueva cuenta?'
                         }));
                     }
                     return throwError(() => error);

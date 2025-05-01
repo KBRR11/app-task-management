@@ -1,8 +1,23 @@
-<h2 mat-dialog-title>{{ data.title }}</h2>
-<mat-dialog-content>
-    <p>{{ data.message }}</p>
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-    <button mat-button (click)="onCancel()">{{ data.cancelText }}</button>
-    <button mat-raised-button color="primary" (click)="onConfirm()">{{ data.confirmText }}</button>
-</mat-dialog-actions>
+<div [ngClass]="{'warning-dialog': isWarningDialog()}">
+    <div class="dialog-header">
+        <h2 mat-dialog-title>{{ data.title }}</h2>
+    </div>
+    
+    <mat-dialog-content>
+        <div class="dialog-content">
+            <mat-icon *ngIf="isWarningDialog()" class="dialog-icon">warning</mat-icon>
+            <p>{{ data.message }}</p>
+        </div>
+    </mat-dialog-content>
+    
+    <mat-dialog-actions align="end">
+        <button mat-button (click)="onCancel()" class="cancel-button">
+            {{ data.cancelText }}
+        </button>
+        <button mat-raised-button [color]="getConfirmButtonColor()" (click)="onConfirm()" class="confirm-button">
+            <mat-icon *ngIf="isWarningDialog()">delete</mat-icon>
+            <mat-icon *ngIf="isCreateDialog()">add_circle</mat-icon>
+            {{ data.confirmText }}
+        </button>
+    </mat-dialog-actions>
+</div>

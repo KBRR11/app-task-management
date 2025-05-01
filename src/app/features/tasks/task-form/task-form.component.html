@@ -1,10 +1,12 @@
 <h2 mat-dialog-title>{{ data.mode === 'create' ? 'Create New Task' : 'Edit Task' }}</h2>
 
-<form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="taskForm" (ngSubmit)="onSubmit()" [@formAnimation]>
     <mat-dialog-content>
         <mat-form-field appearance="outline" class="full-width">
             <mat-label>Title</mat-label>
-            <input matInput formControlName="title" placeholder="Enter task title">
+            <input matInput formControlName="title" placeholder="Enter task title" #titleInput>
+            <mat-icon matSuffix>title</mat-icon>
+            <mat-hint align="end">{{ titleInput.value.length || 0 }}/100</mat-hint>
             <mat-error *ngIf="taskForm.get('title')?.hasError('required')">
                 Title is required
             </mat-error>
@@ -13,29 +15,38 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Description</mat-label>
-            <textarea matInput formControlName="description" placeholder="Enter task description" rows="4">
-      </textarea>
-            <mat-error *ngIf="taskForm.get('description')?.hasError('required')">
-                Description is required
-            </mat-error>
-        </mat-form-field>
+        <div class="form-field-container">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Description</mat-label>
+                <textarea matInput formControlName="description" placeholder="Enter task description" rows="4" #descInput>
+                </textarea>
+                <mat-icon matSuffix>description</mat-icon>
+                <mat-hint align="end">{{ descInput.value.length || 0 }} characters</mat-hint>
+                <mat-error *ngIf="taskForm.get('description')?.hasError('required')">
+                    Description is required
+                </mat-error>
+            </mat-form-field>
+        </div>
 
         <mat-checkbox formControlName="completed" color="primary" class="completed-checkbox">
-            Mark as completed
+            Marcar como completada
         </mat-checkbox>
 
         <div *ngIf="errorMessage" class="error-message">
-            {{ errorMessage }}
+            <mat-icon>error</mat-icon> {{ errorMessage }}
         </div>
     </mat-dialog-content>
 
     <mat-dialog-actions align="end">
-        <button type="button" mat-button (click)="onCancel()">Cancel</button>
+        <button type="button" mat-button (click)="onCancel()" [disabled]="loading">
+            Cancel
+        </button>
         <button type="submit" mat-raised-button color="primary" [disabled]="taskForm.invalid || loading">
             <mat-spinner diameter="20" *ngIf="loading"></mat-spinner>
-            <span *ngIf="!loading">{{ data.mode === 'create' ? 'Create' : 'Update' }}</span>
+            <span *ngIf="!loading">
+                <mat-icon>{{ data.mode === 'create' ? 'add_task' : 'update' }}</mat-icon>
+                {{ data.mode === 'create' ? 'Crear' : 'Actualizar' }}
+            </span>
         </button>
     </mat-dialog-actions>
 </form>

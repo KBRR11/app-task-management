@@ -1,67 +1,83 @@
 <div class="task-container">
-    <mat-toolbar color="primary">
+    <mat-toolbar color="primary" class="app-toolbar">
         <span>Task Management</span>
         <span class="spacer"></span>
-        <button mat-icon-button (click)="logout()" aria-label="Logout">
+        <span class="user-info" *ngIf="authService.currentUserValue">
+            {{ authService.currentUserValue.email }}
+        </span>
+        <button mat-icon-button (click)="logout()" class="logout-button" aria-label="Logout" matTooltip="Logout">
             <mat-icon>exit_to_app</mat-icon>
         </button>
     </mat-toolbar>
 
-    <div class="content">
+    <div class="content route-animation-container">
         <div class="header-actions">
             <mat-form-field appearance="outline" class="search-field">
-                <mat-label>Search tasks</mat-label>
+                <mat-label>Buscar Tareas</mat-label>
                 <input matInput (input)="onSearch($event)" placeholder="Search by title or description">
                 <mat-icon matSuffix>search</mat-icon>
             </mat-form-field>
 
             <div class="filter-buttons">
-                <mat-button-toggle-group [value]="filterType">
-                    <mat-button-toggle value="all" (click)="onFilterChange('all')">All</mat-button-toggle>
-                    <mat-button-toggle value="pending" (click)="onFilterChange('pending')">Pending</mat-button-toggle>
+                <mat-button-toggle-group [value]="filterType" class="filter-toggle-group">
+                    <mat-button-toggle value="all" (click)="onFilterChange('all')">Todas</mat-button-toggle>
+                    <mat-button-toggle value="pending" (click)="onFilterChange('pending')">Pendientes</mat-button-toggle>
                     <mat-button-toggle value="completed"
-                        (click)="onFilterChange('completed')">Completed</mat-button-toggle>
+                        (click)="onFilterChange('completed')">Completadas</mat-button-toggle>
                 </mat-button-toggle-group>
             </div>
 
-            <button mat-raised-button color="accent" (click)="addTask()">
-                <mat-icon>add</mat-icon> Add Task
+            <button mat-raised-button color="accent" (click)="addTask()" class="add-task-button">
+                <mat-icon>add</mat-icon> Agregar tarea
             </button>
         </div>
 
-        <div *ngIf="loading" class="spinner-container">
-            <mat-spinner></mat-spinner>
+        <div *ngIf="loading" class="loading-container">
+            <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
+            <p class="loading-text">Loading your tasks...</p>
         </div>
 
-        <div *ngIf="!loading">
-            <div *ngIf="filteredTasks.length === 0" class="no-tasks">
-                <p>No tasks found. Add a new task to get started.</p>
+        <div *ngIf="!loading" class="tasks-wrapper">
+            <div *ngIf="filteredTasks.length === 0" class="empty-state">
+                <mat-icon class="empty-state-icon">assignment</mat-icon>
+                <h2>No tasks found</h2>
+                <p>{{ filterType !== 'all' ? 'Try changing your filter or ' : '' }}Add a new task to get started.</p>
+                <button mat-raised-button color="primary" (click)="addTask()">
+                    <mat-icon>add</mat-icon> Create Task
+                </button>
             </div>
 
-            <mat-card *ngFor="let task of filteredTasks" class="task-card">
-                <mat-card-header>
-                    <mat-card-title class="task-title">
-                        <mat-checkbox [checked]="task.completed" (change)="toggleTaskCompletion(task)" color="primary"
-                            class="task-checkbox">
-                        </mat-checkbox>
-                        <span [class.completed]="task.completed">{{ task.title }}</span>
-                    </mat-card-title>
-                    <mat-card-subtitle>Created: {{ formatDate(task.createdAt) }}</mat-card-subtitle>
-                </mat-card-header>
+            <div *ngIf="filteredTasks.length > 0" class="tasks-grid">
+                <mat-card *ngFor="let task of filteredTasks; trackBy: trackByTaskId" class="task-card"
+                    [class.completed]="task.completed" [class.pending]="!task.completed" [@taskAnimation]>
+                    <mat-card-header>
+                        <mat-card-title class="task-title">
+                            <div class="task-status-indicator" [class.completed]="task.completed"
+                                [class.pending]="!task.completed"></div>
+                            <span [class.completed]="task.completed">{{ task.title }}</span>
+                        </mat-card-title>
+                        <mat-card-subtitle>Creada: {{ formatDate(task.createdAt) }}</mat-card-subtitle>
+                    </mat-card-header>
 
-                <mat-card-content>
-                    <p [class.completed]="task.completed">{{ task.description }}</p>
-                </mat-card-content>
+                    <mat-card-content>
+                        <p [class.completed]="task.completed">{{ task.description }}</p>
+                    </mat-card-content>
 
-                <mat-card-actions align="end">
-                    <button mat-icon-button color="primary" (click)="editTask(task)" aria-label="Edit task">
-                        <mat-icon>edit</mat-icon>
-                    </button>
-                    <button mat-icon-button color="warn" (click)="deleteTask(task)" aria-label="Delete task">
-                        <mat-icon>delete</mat-icon>
-                    </button>
-                </mat-card-actions>
-            </mat-card>
+                    <mat-card-actions>
+                        <button mat-button color="primary" (click)="toggleTaskCompletion(task)"
+                            [matTooltip]="task.completed ? 'Marcar como pendiente' : 'Marcar como completado'">
+                            <mat-icon>{{ task.completed ? 'unpublished' : 'check_circle' }}</mat-icon>
+                            {{ task.completed ? 'Re-abrir' : 'Completar' }}
+                        </button>
+                        <button mat-button color="accent" (click)="editTask(task)" matTooltip="Edit task">
+                            <mat-icon>edit</mat-icon> Editar
+                        </button>
+                        <button mat-button color="warn" (click)="deleteTask(task)" matTooltip="Delete task">
+                            <mat-icon>delete</mat-icon> Eliminar
+                        </button>
+                    </mat-card-actions>
+                </mat-card>
+            </div>
         </div>
     </div>
 </div>

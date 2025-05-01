@@ -1,0 +1,78 @@
+:host {
+    display: block;
+}
+
+.mat-mdc-dialog-title {
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--primary-color);
+    position: relative;
+    
+    &:after {
+        content: '';
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 40px;
+        height: 3px;
+        background: linear-gradient(to right, var(--primary-light-color), var(--primary-color));
+        border-radius: 2px;
+    }
+}
+
+.mat-mdc-dialog-content {
+    padding: 20px 20px;
+    color: var(--text-secondary);
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.mat-mdc-dialog-actions {
+    padding: 8px 20px;
+    display: flex;
+    gap: 12px;
+    
+    button {
+        transition: var(--transition-standard);
+        
+        &.mat-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark-color));
+        }
+        
+        &:not([disabled]):hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+    }
+}
+
+/* Dialog animation override */
+::ng-deep .confirm-dialog .mat-mdc-dialog-container {
+    padding: 24px;
+    transform-origin: center;
+    animation: dialogEnter 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+@keyframes dialogEnter {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* Warning style when confirm is for delete operation */
+.warning-dialog {
+    .mat-mdc-dialog-title {
+        color: var(--error-color);
+        
+        &:after {
+            background: linear-gradient(to right, var(--error-color), #ff7961);
+        }
+    }
+    
+    .dialog-icon {
+        font-size: 32px;
+        margin-right: 16px;
+        color: var(--error-color);
+    }
+}

@@ -1,31 +1,54 @@
 <div class="login-container">
-    <mat-card>
-        <mat-card-header>
-            <mat-card-title>Task Management App</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-                <mat-form-field appearance="outline" class="full-width">
-                    <mat-label>Email</mat-label>
-                    <input matInput type="email" formControlName="email" placeholder="Enter your email">
-                    <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
-                        Email is required
-                    </mat-error>
-                    <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
-                        Please enter a valid email address
-                    </mat-error>
-                </mat-form-field>
-
-                <div *ngIf="errorMessage" class="error-message">
-                    {{ errorMessage }}
+    <div class="login-card-wrapper" [@loginAnimation]>
+        <mat-card class="login-card">
+            <mat-card-header>
+                <div class="app-logo">
+                    <mat-icon class="logo-icon">assignment</mat-icon>
                 </div>
+                <mat-card-title>Task Management App</mat-card-title>
+                <mat-card-subtitle>Ingresar o registrar un cuenta</mat-card-subtitle>
+            </mat-card-header>
 
-                <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid || loading"
-                    class="full-width">
-                    <mat-spinner diameter="20" *ngIf="loading"></mat-spinner>
-                    <span *ngIf="!loading">Login</span>
-                </button>
-            </form>
-        </mat-card-content>
-    </mat-card>
+            <mat-card-content>
+                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Email</mat-label>
+                        <input matInput type="email" formControlName="email" placeholder="Enter your email">
+                        <mat-icon matSuffix>email</mat-icon>
+                        <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
+                            Email is required
+                        </mat-error>
+                        <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
+                            Porfavor ingresa un email válido
+                        </mat-error>
+                    </mat-form-field>
+
+                    <div *ngIf="errorMessage" class="error-message" [@fadeInAnimation]>
+                        <mat-icon>error</mat-icon> {{ errorMessage }}
+                    </div>
+
+                    <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid || loading"
+                        class="full-width login-button">
+                        <mat-spinner diameter="20" *ngIf="loading"></mat-spinner>
+                        <span *ngIf="!loading">Ingresar</span>
+                    </button>
+                </form>
+            </mat-card-content>
+
+            <mat-card-footer>
+                <div class="login-footer">
+                    <p>Maneja tus tareas eficientemente</p>
+                </div>
+            </mat-card-footer>
+        </mat-card>
+    </div>
+
+    <div class="login-animation">
+        <div class="animated-tasks">
+            <div class="animated-task" *ngFor="let task of animatedTasks; let i = index"
+                [style.animation-delay]="i * 0.2 + 's'">
+                <mat-icon>{{ task.icon }}</mat-icon>
+            </div>
+        </div>
+    </div>
 </div>

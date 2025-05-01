@@ -1,0 +1,318 @@
+// Import Angular Material theming functions
+@use '@angular/material' as mat;
+
+// Include the common styles for Angular Material
+@include mat.core();
+
+// Define custom palettes
+$primary-palette: (
+  50: #e8eaf6,
+  100: #c5cae9,
+  200: #9fa8da,
+  300: #7986cb,
+  400: #5c6bc0,
+  500: #3f51b5,  // Primary color
+  600: #3949ab,
+  700: #303f9f,
+  800: #283593,
+  900: #1a237e,
+  A100: #8c9eff,
+  A200: #536dfe,
+  A400: #3d5afe,
+  A700: #304ffe,
+  contrast: (
+    50: rgba(0, 0, 0, 0.87),
+    100: rgba(0, 0, 0, 0.87),
+    200: rgba(0, 0, 0, 0.87),
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: rgba(0, 0, 0, 0.87),
+    A200: white,
+    A400: white,
+    A700: white,
+  )
+);
+
+$accent-palette: (
+  50: #fce4ec,
+  100: #f8bbd0,
+  200: #f48fb1,
+  300: #f06292,
+  400: #ec407a,
+  500: #e91e63,  // Accent color
+  600: #d81b60,
+  700: #c2185b,
+  800: #ad1457,
+  900: #880e4f,
+  A100: #ff80ab,
+  A200: #ff4081,
+  A400: #f50057,
+  A700: #c51162,
+  contrast: (
+    50: rgba(0, 0, 0, 0.87),
+    100: rgba(0, 0, 0, 0.87),
+    200: rgba(0, 0, 0, 0.87),
+    300: rgba(0, 0, 0, 0.87),
+    400: rgba(0, 0, 0, 0.87),
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: rgba(0, 0, 0, 0.87),
+    A200: white,
+    A400: white,
+    A700: white,
+  )
+);
+
+// Define material palettes
+$app-primary: mat.define-palette($primary-palette);
+$app-accent: mat.define-palette($accent-palette);
+$app-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object
+$app-theme: mat.define-light-theme((
+  color: (
+    primary: $app-primary,
+    accent: $app-accent,
+    warn: $app-warn,
+  ),
+  typography: mat.define-typography-config(
+    $font-family: 'Roboto, "Helvetica Neue", sans-serif',
+    $headline-1: mat.define-typography-level(96px, 96px, 300, $letter-spacing: -0.05em),
+    $headline-2: mat.define-typography-level(60px, 60px, 300, $letter-spacing: -0.05em),
+    $headline-3: mat.define-typography-level(48px, 48px, 400),
+    $headline-4: mat.define-typography-level(34px, 40px, 400),
+    $headline-5: mat.define-typography-level(24px, 32px, 400),
+    $headline-6: mat.define-typography-level(20px, 28px, 500),
+    $subtitle-1: mat.define-typography-level(16px, 24px, 400),
+    $subtitle-2: mat.define-typography-level(14px, 22px, 500),
+    $body-1: mat.define-typography-level(16px, 24px, 400),
+    $body-2: mat.define-typography-level(14px, 20px, 400),
+    $caption: mat.define-typography-level(12px, 20px, 400),
+    $button: mat.define-typography-level(14px, 14px, 500, $letter-spacing: 0.1em),
+  ),
+  density: 0,
+));
+
+// Apply the theme to Angular Material
+@include mat.all-component-themes($app-theme);
+
+// Custom Material component styles
+
+// Enhanced card styles
+.mat-mdc-card {
+  border-radius: 12px;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  
+  .mat-mdc-card-header {
+    padding: 16px 16px 0;
+  }
+  
+  .mat-mdc-card-title {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  
+  .mat-mdc-card-subtitle {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 14px;
+  }
+  
+  .mat-mdc-card-content {
+    padding: 16px;
+    color: rgba(0, 0, 0, 0.8);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  
+  .mat-mdc-card-actions {
+    padding: 8px 16px 16px;
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+// Enhanced button styles
+.mat-mdc-button, 
+.mat-mdc-raised-button, 
+.mat-mdc-outlined-button,
+.mat-mdc-icon-button {
+  border-radius: 24px;
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  transition: background-color 0.3s ease, 
+              transform 0.3s ease, 
+              box-shadow 0.3s ease;
+              
+  .mat-icon {
+    margin-right: 4px;
+    font-size: 18px;
+    display: inline-flex;
+    vertical-align: middle;
+  }
+  
+  &.mat-primary {
+    &.mat-mdc-raised-button {
+      background: linear-gradient(135deg, #3f51b5, #303f9f);
+      box-shadow: 0 3px 5px -1px rgba(63, 81, 181, 0.2),
+                  0 6px 10px 0 rgba(63, 81, 181, 0.14),
+                  0 1px 18px 0 rgba(63, 81, 181, 0.12);
+    }
+  }
+  
+  &.mat-accent {
+    &.mat-mdc-raised-button {
+      background: linear-gradient(135deg, #e91e63, #c2185b);
+      box-shadow: 0 3px 5px -1px rgba(233, 30, 99, 0.2),
+                  0 6px 10px 0 rgba(233, 30, 99, 0.14),
+                  0 1px 18px 0 rgba(233, 30, 99, 0.12);
+    }
+  }
+}
+
+// Enhanced form field styles
+.mat-mdc-form-field {
+  width: 100%;
+  margin-bottom: 16px;
+  
+  &.mat-focused {
+    .mat-mdc-form-field-label {
+      color: #3f51b5;
+    }
+  }
+  
+  &.mat-form-field-appearance-outline {
+    .mat-form-field-outline {
+      transition: color 0.3s ease;
+    }
+    
+    &.mat-focused .mat-form-field-outline {
+      color: #3f51b5;
+    }
+  }
+  
+  .mat-mdc-form-field-label {
+    transition: transform 0.3s ease, color 0.3s ease;
+  }
+  
+  .mat-mdc-form-field-hint,
+  .mat-mdc-form-field-error {
+    font-size: 12px;
+  }
+}
+
+// Enhanced checkbox styles
+.mat-mdc-checkbox {
+  .mdc-checkbox__background {
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+  
+  &.mat-mdc-checkbox-checked {
+    .mdc-checkbox__background {
+      border-color: #3f51b5;
+      background-color: #3f51b5;
+    }
+  }
+}
+
+// Enhanced dialog styles
+.mat-mdc-dialog-container {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2),
+              0 24px 38px 3px rgba(0, 0, 0, 0.14),
+              0 9px 46px 8px rgba(0, 0, 0, 0.12);
+  
+  .mat-mdc-dialog-title {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  
+  .mat-mdc-dialog-content {
+    color: rgba(0, 0, 0, 0.7);
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  
+  .mat-mdc-dialog-actions {
+    padding: 12px 24px;
+    margin-bottom: 0;
+  }
+}
+
+// Enhanced toolbar styles
+.mat-toolbar {
+  &.mat-primary {
+    background: linear-gradient(135deg, #3f51b5, #303f9f);
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2),
+                0 4px 5px 0 rgba(0, 0, 0, 0.14),
+                0 1px 10px 0 rgba(0, 0, 0, 0.12);
+  }
+}
+
+// Enhanced input styles
+.mat-mdc-input-element {
+  font-size: 16px;
+  line-height: 1.5;
+  transition: background-color 0.3s ease;
+  
+  &:focus {
+    background-color: rgba(63, 81, 181, 0.05);
+  }
+}
+
+// Enhanced progress spinner
+.mat-progress-spinner circle {
+  stroke: #3f51b5;
+  transition: stroke-dashoffset 0.3s ease;
+}
+
+// Enhanced button toggle styles
+.mat-button-toggle-group {
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2),
+              0 2px 2px 0 rgba(0, 0, 0, 0.14),
+              0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  
+  .mat-button-toggle {
+    transition: background-color 0.3s ease;
+    
+    &.mat-button-toggle-checked {
+      background-color: rgba(63, 81, 181, 0.12);
+      color: #3f51b5;
+    }
+  }
+}
+
+// Enhanced tooltip styles
+.mat-tooltip {
+  background: rgba(63, 81, 181, 0.9);
+  border-radius: 4px;
+  font-size: 12px;
+  padding: 8px 12px;
+  max-width: 250px;
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2),
+              0 4px 5px 0 rgba(0, 0, 0, 0.14),
+              0 1px 10px 0 rgba(0, 0, 0, 0.12);
+}
+
+// Enhanced snackbar styles
+.mat-mdc-snack-bar-container {
+  margin: 16px;
+  border-radius: 4px;
+  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2),
+              0 6px 10px 0 rgba(0, 0, 0, 0.14),
+              0 1px 18px 0 rgba(0, 0, 0, 0.12);
+}

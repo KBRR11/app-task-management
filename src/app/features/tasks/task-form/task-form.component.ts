@@ -10,6 +10,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatIconModule } from '@angular/material/icon';
+import { trigger, transition, style, animate, query, stagger } from '@angular/animations';
 
 interface TaskFormData {
   mode: 'create' | 'edit';
@@ -29,7 +31,20 @@ interface TaskFormData {
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatIconModule
+  ],
+  animations: [
+    trigger('formAnimation', [
+      transition(':enter', [
+        query('.mat-form-field, .completed-checkbox', [
+          style({ opacity: 0, transform: 'translateY(10px)' }),
+          stagger(80, [
+            animate('400ms ease', style({ opacity: 1, transform: 'translateY(0)' }))
+          ])
+        ], { optional: true })
+      ])
+    ])
   ]
 })
 export class TaskFormComponent implements OnInit {
@@ -59,10 +74,24 @@ export class TaskFormComponent implements OnInit {
         completed: this.data.task.completed
       });
     }
+
+    // Add animation class when form field is focused
+    const formFields = document.querySelectorAll('.mat-form-field');
+    formFields.forEach(field => {
+      field.addEventListener('focus', () => {
+        field.classList.add('focused');
+      }, true);
+      
+      field.addEventListener('blur', () => {
+        field.classList.remove('focused');
+      }, true);
+    });
   }
 
   onSubmit(): void {
     if (this.taskForm.invalid) {
+      // Highlight all validation errors
+      this.taskForm.markAllAsTouched();
       return;
     }
 
@@ -87,9 +116,10 @@ export class TaskFormComponent implements OnInit {
         this.loading = false;
         this.dialogRef.close(response.task);
       },
-      error: () => {
+      error: (error) => {
         this.loading = false;
         this.errorMessage = 'Failed to create task. Please try again.';
+        console.error('Error creating task:', error);
       }
     });
   }
@@ -100,9 +130,10 @@ export class TaskFormComponent implements OnInit {
         this.loading = false;
         this.dialogRef.close(response.task);
       },
-      error: () => {
+      error: (error) => {
         this.loading = false;
         this.errorMessage = 'Failed to update task. Please try again.';
+        console.error('Error updating task:', error);
       }
     });
   }
