@@ -17,22 +17,18 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: 'pnpm'
-
-      - name: Install pnpm
-        run: npm install -g pnpm
 
       - name: Install dependencies
-        run: pnpm install
+        run: npm ci
 
       - name: Build Angular app
-        run: pnpm run build
+        run: npm run build
 
       - name: Install Netlify CLI
-        run: pnpm add -g netlify-cli
+        run: npm install -g netlify-cli
 
       - name: Deploy to Netlify
-        run: netlify deploy --prod --dir=dist/task-mannagement-app --site=$NETLIFY_SITE_ID --auth=$NETLIFY_AUTH_TOKEN
+        run: netlify deploy --prod --dir=dist/task-mannagement-app/browser --site=$NETLIFY_SITE_ID --auth=$NETLIFY_AUTH_TOKEN
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
